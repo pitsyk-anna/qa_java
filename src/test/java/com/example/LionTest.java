@@ -14,33 +14,48 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class LionTest {
 
-@Mock
-  private Feline feline;
+    @Mock
+    private Feline feline;
 
-
-
-@Test
-    public void invalidSexLionThrowsException(){
-    try {
-        Lion lion = new Lion("Большой кот", feline);
-        fail("Ожидалось исключение");
-    } catch (Exception e) {
-        assertEquals("Используйте допустимые значения пола животного - самец или самка", e.getMessage());
-    }
-}
     @Test
-    public void getKittensDelegatesToFeline() throws Exception {
-        when(feline.getKittens()).thenReturn(3);
+    public void invalidSexLionThrowsException() {
+        try {
+            Lion lion = new Lion("Большой кот", feline);
+            fail("Ожидалось исключение");
+        } catch (Exception e) {
+            assertEquals("Используйте допустимые значения пола животного - самец или самка", e.getMessage());
+        }
+    }
+
+    @Test
+    public void getKittensReturnsCorrectValue() throws Exception {
+        int expectedValue = 3;
+        when(feline.getKittens()).thenReturn(expectedValue);
         Lion lion = new Lion("Самец", feline);
-        assertEquals(3, lion.getKittens());
+        int result = lion.getKittens();
+        assertEquals(expectedValue, result);
+    }
+
+    @Test
+    public void getKittensDelegatesCallToFeline() throws Exception {
+        Lion lion = new Lion("Самец", feline);
+        lion.getKittens();
         verify(feline).getKittens();
     }
+
     @Test
-    public void getFoodDelegatesToFeline() throws Exception {
-        List<String> expected = List.of("Животные", "Птицы", "Рыба");
-        when(feline.getFood("Хищник")).thenReturn(expected);
+    public void getFoodReturnsCorrectList() throws Exception {
+        List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
+        when(feline.getFood("Хищник")).thenReturn(expectedFood);
         Lion lion = new Lion("Самец", feline);
-        assertEquals(expected, lion.getFood());
+        List<String> result = lion.getFood();
+        assertEquals(expectedFood, result);
+    }
+    @Test
+    public void getFoodDelegatesCallToFeline() throws Exception {
+        Lion lion = new Lion("Самец", feline);
+        lion.getFood();
         verify(feline).getFood("Хищник");
     }
-}
+    }
+
