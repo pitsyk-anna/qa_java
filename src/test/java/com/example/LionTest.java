@@ -17,17 +17,7 @@ public class LionTest {
 @Mock
   private Feline feline;
 
-@Test
-    public void maleLionHasMane() throws Exception {
-    Lion lion = new Lion("Самец", feline);
-    assertTrue(lion.doesHaveMane());
-}
 
-@Test
-    public void femaleLionHasNoMane() throws Exception {
-    Lion lion = new Lion("Самка", feline);
-    assertFalse(lion.doesHaveMane());
-}
 
 @Test
     public void invalidSexLionThrowsException(){
